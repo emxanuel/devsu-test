@@ -37,10 +37,9 @@ export const productsFormResolver: Resolver<Product> = async (values) => {
     return { values: result.data, errors: {} };
   }
   const errors: Record<string, { type: string; message: string }> = {};
-  const issues = result.error.issues ?? (result.error as unknown as { errors?: { path: (string | number)[]; message: string }[] }).errors ?? [];
-  for (const issue of issues) {
-    const key = issue.path[0] != null ? String(issue.path[0]) : "";
-    if (key && !errors[key]) {
+  for (const issue of result.error.issues) {
+    const key = String(issue.path[0]);
+    if (!(key in errors)) {
       errors[key] = { type: "validation", message: issue.message };
     }
   }

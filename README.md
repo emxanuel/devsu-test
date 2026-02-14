@@ -1,50 +1,43 @@
-# Welcome to your Expo app 👋
+# Frontend — Instrucciones
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+## Ejecución
 
-## Get started
+### Requisitos
 
-1. Install dependencies
+- Node.js (v18 o superior)
+- pnpm
 
-   ```bash
-   npm install
-   ```
-
-2. Start the app
-
-   ```bash
-   npx expo start
-   ```
-
-In the output, you'll find options to open the app in a
-
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
-
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
+### Instalación
 
 ```bash
-npm run reset-project
+pnpm install
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+### Ejecutar la app
 
-## Learn more
+```bash
+pnpm start
+```
 
-To learn more about developing your project with Expo, look at the following resources:
+Desde la terminal de Expo puedes abrir:
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+- **Android:** `a` o `pnpm android`
+- **iOS:** `i` o `pnpm ios`
+- **Web:** `w` o `pnpm web`
 
-## Join the community
+---
 
-Join our community of developers creating universal apps.
+## Pruebas unitarias
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+```bash
+# Ejecutar todos los tests
+pnpm test
+
+# Modo watch (re-ejecuta al cambiar archivos)
+pnpm test:watch
+
+# Tests con reporte de cobertura
+pnpm test:coverage
+```
+
+Los tests usan Jest y React Native Testing Library. Están en carpetas `__tests__` junto a los módulos (schemas, services, hooks, components).

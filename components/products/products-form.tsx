@@ -37,15 +37,18 @@ export default function ProductsForm({ product: initialProduct }: ProductsFormPr
   const createProduct = useCreateProduct();
   const updateProduct = useUpdateProduct();
 
+  const defaultValues = initialProduct
+    ? productToDefaultValues(initialProduct)
+    : emptyDefaults;
+
   const {
     control,
     handleSubmit,
-    formState: { errors },
+    reset,
+    formState: { errors, isDirty },
   } = useForm<Product>({
     resolver: productsFormResolver,
-    defaultValues: initialProduct
-      ? productToDefaultValues(initialProduct)
-      : emptyDefaults,
+    defaultValues,
   });
 
   const onSubmit = (data: Product) => {
@@ -74,6 +77,7 @@ export default function ProductsForm({ product: initialProduct }: ProductsFormPr
   };
 
   const isPending = createProduct.isPending || updateProduct.isPending;
+  const isSubmitDisabled = isPending || (isEdit && !isDirty);
   const isError = createProduct.isError || updateProduct.isError;
   const errorMessage =
     createProduct.error?.message ?? updateProduct.error?.message ?? "Error al guardar.";
@@ -169,9 +173,9 @@ export default function ProductsForm({ product: initialProduct }: ProductsFormPr
             name="date_release"
             render={({ field }: { field: ControllerRenderProps<Product, "date_release"> }) => (
               <View style={styles.field}>
-                <Text style={styles.label}>Fecha de release</Text>
+                <Text style={styles.label}>Fecha Liberación</Text>
                 <TextInput
-                  placeholder="Fecha de release (ej. 2025-01-15)"
+                  placeholder="Fecha Liberación (ej. 2025-01-15)"
                   value={field.value}
                   onChangeText={field.onChange}
                   onBlur={field.onBlur}
@@ -187,9 +191,9 @@ export default function ProductsForm({ product: initialProduct }: ProductsFormPr
             name="date_revision"
             render={({ field }: { field: ControllerRenderProps<Product, "date_revision"> }) => (
               <View style={styles.field}>
-                <Text style={styles.label}>Fecha de revisión</Text>
+                <Text style={styles.label}>Fecha Revisión</Text>
                 <TextInput
-                  placeholder="Fecha de revisión (ej. 2026-01-15)"
+                  placeholder="Fecha Revisión (ej. 2026-01-15)"
                   value={field.value}
                   onChangeText={field.onChange}
                   onBlur={field.onBlur}
@@ -203,19 +207,28 @@ export default function ProductsForm({ product: initialProduct }: ProductsFormPr
             <Text style={styles.mutationError}>{errorMessage}</Text>
           )}
       </View>
-      <Pressable
-        style={[styles.submitButton, isPending && styles.submitButtonDisabled]}
-        onPress={handleSubmit(onSubmit)}
-        disabled={isPending}
-      >
-        {isPending ? (
-          <ActivityIndicator color="#fff" />
-        ) : (
-          <Text style={styles.submitButtonText}>
-            {isEdit ? "Guardar cambios" : "Enviar formulario"}
-          </Text>
-        )}
-      </Pressable>
+      <View style={styles.buttonsContainer}>
+        <Pressable
+          style={[styles.submitButton, isSubmitDisabled && styles.submitButtonDisabled]}
+          onPress={handleSubmit(onSubmit)}
+          disabled={isSubmitDisabled}
+        >
+          {isPending ? (
+            <ActivityIndicator color="#fff" />
+          ) : (
+            <Text style={styles.submitButtonText}>
+              {isEdit ? "Guardar cambios" : "Enviar formulario"}
+            </Text>
+          )}
+        </Pressable>
+        <Pressable
+          style={[styles.secondaryButton, isPending && styles.submitButtonDisabled]}
+          onPress={() => reset(defaultValues)}
+          disabled={isPending}
+        >
+          <Text style={styles.secondaryButtonText}>Reiniciar</Text>
+        </Pressable>
+      </View>
     </View>
   );
 }
@@ -278,8 +291,23 @@ const styles = StyleSheet.create({
     color: "#c00",
     fontSize: 12,
   },
-  submitButton: {
+  buttonsContainer: {
+    gap: 12,
     marginTop: 24,
+  },
+  secondaryButton: {
+    flex: 1,
+    backgroundColor: Colors.gray,
+    padding: 14,
+    borderRadius: BorderWidths.button,
+    alignItems: "center",
+  },
+  secondaryButtonText: {
+    color: Colors.foreground,
+    fontWeight: "600",
+  },
+  submitButton: {
+    flex: 1,
     backgroundColor: Colors.primary,
     padding: 14,
     borderRadius: BorderWidths.button,
