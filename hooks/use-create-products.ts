@@ -19,3 +19,33 @@ export function useCreateProduct() {
     },
   });
 }
+
+export function useUpdateProduct() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: ({
+      id,
+      data,
+    }: {
+      id: string;
+      data: Product;
+    }) => productsService.updateProduct(id, data),
+    onSuccess: (_, variables) => {
+      queryClient.invalidateQueries({ queryKey: productsKeys.all });
+      queryClient.invalidateQueries({ queryKey: ["product", variables.id] });
+    },
+  });
+}
+
+export function useDeleteProduct() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (id: string) => productsService.deleteProduct(id),
+    onSuccess: (_, id) => {
+      queryClient.invalidateQueries({ queryKey: productsKeys.all });
+      queryClient.invalidateQueries({ queryKey: ["product", id] });
+    },
+  });
+}

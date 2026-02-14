@@ -1,5 +1,6 @@
 import ProductList from "@/components/home/product-list";
 import SearchInput from "@/components/home/search-input";
+import { BorderWidths } from "@/constants/theme";
 import { useProducts } from "@/hooks/use-products";
 import { ActivityIndicator, Pressable, StyleSheet, Text, View } from "react-native";
 
@@ -66,7 +67,7 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 20,
     backgroundColor: "#0066cc",
-    borderRadius: 8,
+    borderRadius: BorderWidths.button,
   },
   retryButtonText: {
     color: "#fff",

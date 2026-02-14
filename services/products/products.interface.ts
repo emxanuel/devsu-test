@@ -8,3 +8,12 @@ export interface CreateProductResponse {
   message: string;
   data: Product;
 }
+
+export interface UpdateProductResponse {
+  message: string;
+  data: Product;
+}
+
+export interface DeleteProductResponse {
+  message: string;
+}

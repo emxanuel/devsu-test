@@ -1,5 +1,7 @@
+import { Colors } from "@/constants/theme";
 import { Ionicons } from "@expo/vector-icons";
-import { StyleSheet, Text, View } from "react-native";
+import { router } from "expo-router";
+import { Pressable, StyleSheet, Text, View } from "react-native";
 import { Product } from "../../schemas/products.schema";
 
 interface ProductItemProps {
@@ -7,14 +9,17 @@ interface ProductItemProps {
 }
 
 export default function ProductItem({ product }: ProductItemProps) {
+  const handlePress = () => {
+    router.push(`/products/${product.id}`);
+  };
   return (
-    <View style={styles.container}>
+    <Pressable style={styles.container} onPress={handlePress} android_ripple={{ color: Colors.primary }}>
       <View style={styles.content}>
         <Text>{product.name}</Text>
         <Text>ID: {product.id}</Text>
       </View>
       <Ionicons name="chevron-forward" size={20} color="#666" />
-    </View>
+    </Pressable>
   );
 }
 

@@ -1,4 +1,4 @@
-import Colors from "@/constants/theme";
+import { BorderWidths, Colors, Paddings } from "@/constants/theme";
 import { Link } from "expo-router";
 import { StyleSheet, Text } from "react-native";
 
@@ -14,8 +14,8 @@ export default function NewProductButton() {
 const styles = StyleSheet.create({
   button: {
     backgroundColor: Colors.primary,
-    padding: 10,
-    borderRadius: 5,
+    padding: Paddings.button,
+    borderRadius: BorderWidths.button,
     alignItems: 'center',
     justifyContent: 'center',
   },
